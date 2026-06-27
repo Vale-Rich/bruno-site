@@ -108,7 +108,7 @@ section{position:relative;padding:clamp(80px,11vh,140px) clamp(20px,5vw,64px)}
   position:relative;z-index:2;width:100%;max-width:1320px;margin:0 auto;
   display:grid;grid-template-columns:0.72fr 1.28fr;gap:clamp(28px,4vw,56px);align-items:center;
 }
-.hero-copy{max-width:480px}
+.hero-copy{max-width:500px}
 .hero-glow{
   position:absolute;top:8%;right:10%;width:min(34vw,360px);aspect-ratio:1;
   background:radial-gradient(circle,rgba(232,168,75,.18),transparent 65%);
@@ -116,13 +116,13 @@ section{position:relative;padding:clamp(80px,11vh,140px) clamp(20px,5vw,64px)}
 }
 @keyframes breathe{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:.75;transform:scale(1.06)}}
 .hero h1{
-  font-size:clamp(28px,3.8vw,46px);max-width:18ch;font-weight:500;
-  letter-spacing:-.015em;margin-bottom:22px;line-height:1.13;color:var(--ink);
+  font-size:clamp(28px,3.8vw,45px);font-weight:500;
+  letter-spacing:-.015em;margin-bottom:26px;line-height:1.22;color:var(--ink);
 }
 .hero h1 .warm-word{color:var(--bruno-red);font-style:italic}
 .hero .lede{
   font-size:clamp(15px,1.5vw,17px);color:#6a5a45;
-  max-width:42ch;margin-bottom:30px;
+  max-width:42ch;margin-bottom:34px;
 }
 .hero-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
 /* video frame */
@@ -166,7 +166,7 @@ section{position:relative;padding:clamp(80px,11vh,140px) clamp(20px,5vw,64px)}
 
 /* mascot dot in hero */
 .hero-mascot{
-  display:inline-flex;align-items:center;gap:12px;margin-bottom:22px;
+  display:inline-flex;align-items:center;gap:12px;margin-bottom:26px;
   padding:8px;border:1px solid var(--line-warm);border-radius:999px;
   width:max-content;background:rgba(255,255,255,.5);
 }
@@ -333,7 +333,7 @@ footer{background:#efe6d6;color:#8a7a62;padding:48px clamp(20px,5vw,64px);text-a
         <img class="ico" src="data:image/jpeg;base64,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" alt="Bruno">
         <span class="tx" data-i18n="hero.badge"><b>Bruno</b> — увага, яку вони заслуговують</span>
       </div>
-      <h1 class="reveal" data-i18n-html="hero.h1">Іноді людям не потрібне ідеальне життя.<br>Іноді їм просто треба відчути, що вони <span class="warm-word">комусь потрібні</span>.</h1>
+      <h1 class="reveal" data-i18n-html="hero.h1">Іноді людям не потрібне ідеальне життя.<br>Іноді їм просто треба відчути, що вони <span class="warm-word">комусь&nbsp;потрібні</span>.</h1>
       <p class="lede reveal" data-i18n="hero.lede">Bruno — це не агентство і не «робота в чаті». Це місце, де розуміють самотність і вміють перетворювати увагу на цінність.</p>
       <div class="hero-cta reveal">
         <a href="#join" class="btn" data-i18n="cta.primary">Стати оператором Bruno
@@ -518,7 +518,7 @@ document.getElementById('tg-foot').href = TELEGRAM_URL;
 var I18N={
  uk:{
   "hero.badge":"<b>Bruno</b> — увага, яку вони заслуговують",
-  "hero.h1":"Іноді людям не потрібне ідеальне життя.<br>Іноді їм просто треба відчути, що вони <span class='warm-word'>комусь потрібні</span>.",
+  "hero.h1":"Іноді людям не потрібне ідеальне життя.<br>Іноді їм просто треба відчути, що вони <span class='warm-word'>комусь&nbsp;потрібні</span>.",
   "hero.lede":"Bruno — це не агентство і не «робота в чаті». Це місце, де розуміють самотність і вміють перетворювати увагу на цінність.",
   "cta.primary":"Стати оператором Bruno","cta.learn":"Що таке Bruno","scroll":"гортай","sound.on":"Увімкнути звук","sound.watch":"Дивитись зі звуком","intro.skip":"Пропустити інтро",
   "problem.eyebrow":"Холодний світ",
@@ -550,7 +550,7 @@ var I18N={
  },
  ru:{
   "hero.badge":"<b>Bruno</b> — внимание, которое они заслуживают",
-  "hero.h1":"Иногда людям не нужна идеальная жизнь.<br>Иногда им просто нужно почувствовать, что они <span class='warm-word'>кому-то нужны</span>.",
+  "hero.h1":"Иногда людям не нужна идеальная жизнь.<br>Иногда им просто нужно почувствовать, что они <span class='warm-word'>кому-то&nbsp;нужны</span>.",
   "hero.lede":"Bruno — это не агентство и не «работа в чате». Это место, где понимают одиночество и умеют превращать внимание в ценность.",
   "cta.primary":"Стать оператором Bruno","cta.learn":"Что такое Bruno","scroll":"листай","sound.on":"Включить звук","sound.watch":"Смотреть со звуком","intro.skip":"Пропустить интро",
   "problem.eyebrow":"Холодный мир",
