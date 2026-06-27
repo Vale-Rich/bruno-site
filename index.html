@@ -131,20 +131,9 @@ section{position:relative;padding:clamp(80px,11vh,140px) clamp(20px,5vw,64px)}
   aspect-ratio:16/9;background:#1c1410;
   box-shadow:0 30px 80px rgba(120,80,40,.25),0 0 0 1px rgba(168,150,121,.25),0 0 0 8px rgba(255,255,255,.5);
 }
-.hero-video-frame #yt-bg,.hero-video-frame iframe{
-  position:absolute;inset:0;width:100%;height:100%;border:0;background:#1c1410;pointer-events:none;
+.hero-video-frame video{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#1c1410;
 }
-/* invisible shield over the player to fully block any YouTube hover UI */
-.hero-video-frame::after{
-  content:"";position:absolute;inset:0;z-index:3;pointer-events:auto;background:transparent;
-}
-/* opaque cover (YT thumbnail) — hides YouTube's title/info card that auto-shows
-   for the first few seconds of playback (controls=0/showinfo no longer suppress it) */
-.hero-video-cover{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  z-index:10;transition:opacity .9s ease;
-}
-.hero-video-cover.hide{opacity:0;pointer-events:none}
 .hero-vsound{
   position:absolute;bottom:14px;right:14px;z-index:4;
   display:inline-flex;align-items:center;gap:8px;
@@ -342,9 +331,10 @@ footer{background:#efe6d6;color:#8a7a62;padding:48px clamp(20px,5vw,64px);text-a
         <a href="#idea" class="btn btn-ghost" data-i18n="cta.learn">Що таке Bruno</a>
       </div>
     </div>
-    <div class="hero-video-frame reveal">
-      <div id="yt-bg"></div>
-      <img id="heroCover" class="hero-video-cover" src="https://img.youtube.com/vi/SnBEbM8jjag/hqdefault.jpg" alt="">
+    <div class="hero-video-frame reveal" oncontextmenu="return false">
+      <video id="heroVideo" autoplay muted loop playsinline preload="auto" disablePictureInPicture controlsList="nodownload noplaybackrate">
+        <source src="https://bruno.team/media/video/asset-fcaa5ad35a.mp4" type="video/mp4">
+      </video>
       <button class="hero-vsound" id="heroSound" aria-label="sound">
         <svg id="icoMuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M23 9l-6 6M17 9l6 6"/></svg>
         <svg id="icoSound" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a9 9 0 0 1 0 14"/></svg>
@@ -461,31 +451,13 @@ footer{background:#efe6d6;color:#8a7a62;padding:48px clamp(20px,5vw,64px);text-a
 </footer>
 
 <script>
-/* ===== HERO VIDEO (YouTube inline, no controls, no UI) ===== */
-var YT_ID="SnBEbM8jjag";
-var ytBg=null, ytReady=false, soundOn=false;
-(function(){var t=document.createElement('script');t.src="https://www.youtube.com/iframe_api";document.head.appendChild(t);})();
-window.onYouTubeIframeAPIReady=function(){
-  ytBg=new YT.Player('yt-bg',{
-    videoId:YT_ID,
-    playerVars:{autoplay:1,controls:0,mute:1,playsinline:1,rel:0,modestbranding:1,showinfo:0,fs:0,disablekb:1,iv_load_policy:3,loop:1,playlist:YT_ID},
-    events:{
-      'onReady':function(e){
-        ytReady=true;e.target.mute();e.target.playVideo();
-        // give YouTube's auto-shown title/info card time to disappear, then reveal the live video
-        setTimeout(function(){
-          var c=document.getElementById('heroCover');
-          if(c)c.classList.add('hide');
-        },5200);
-      },
-      'onStateChange':function(e){ if(e.data===YT.PlayerState.ENDED){e.target.seekTo(0);e.target.playVideo();} }
-    }
-  });
-};
+/* ===== HERO VIDEO (self-hosted MP4, no controls, no UI) ===== */
+var heroVideo=document.getElementById('heroVideo'), soundOn=false;
 function setSound(state){
-  if(!ytBg||!ytReady)return;
+  if(!heroVideo)return;
   soundOn=state;
-  if(soundOn){ytBg.unMute();ytBg.setVolume(100);ytBg.playVideo();}else{ytBg.mute();}
+  heroVideo.muted=!soundOn;
+  if(soundOn){heroVideo.volume=1;heroVideo.play().catch(function(){});}
   var im=document.getElementById('icoMuted'), is=document.getElementById('icoSound');
   if(im)im.style.display=soundOn?'none':'';
   if(is)is.style.display=soundOn?'':'none';
@@ -503,9 +475,9 @@ window.addEventListener('keydown',firstTouch);
 window.addEventListener('touchstart',firstTouch);
 // pause video when hero off-screen
 var heroSec=document.getElementById('top');
-if('IntersectionObserver' in window && heroSec){
+if('IntersectionObserver' in window && heroSec && heroVideo){
   new IntersectionObserver(function(es){
-    es.forEach(function(e){ if(!ytBg||!ytReady)return; try{ if(e.isIntersecting){ytBg.playVideo();}else{ytBg.pauseVideo();} }catch(x){} });
+    es.forEach(function(e){ try{ if(e.isIntersecting){heroVideo.play().catch(function(){});}else{heroVideo.pause();} }catch(x){} });
   },{threshold:.05}).observe(heroSec);
 }
 
