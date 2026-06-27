@@ -138,6 +138,13 @@ section{position:relative;padding:clamp(80px,11vh,140px) clamp(20px,5vw,64px)}
 .hero-video-frame::after{
   content:"";position:absolute;inset:0;z-index:3;pointer-events:auto;background:transparent;
 }
+/* opaque cover (YT thumbnail) — hides YouTube's title/info card that auto-shows
+   for the first few seconds of playback (controls=0/showinfo no longer suppress it) */
+.hero-video-cover{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  z-index:10;transition:opacity .9s ease;
+}
+.hero-video-cover.hide{opacity:0;pointer-events:none}
 .hero-vsound{
   position:absolute;bottom:14px;right:14px;z-index:4;
   display:inline-flex;align-items:center;gap:8px;
@@ -337,6 +344,7 @@ footer{background:#efe6d6;color:#8a7a62;padding:48px clamp(20px,5vw,64px);text-a
     </div>
     <div class="hero-video-frame reveal">
       <div id="yt-bg"></div>
+      <img id="heroCover" class="hero-video-cover" src="https://img.youtube.com/vi/SnBEbM8jjag/hqdefault.jpg" alt="">
       <button class="hero-vsound" id="heroSound" aria-label="sound">
         <svg id="icoMuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M23 9l-6 6M17 9l6 6"/></svg>
         <svg id="icoSound" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a9 9 0 0 1 0 14"/></svg>
@@ -462,7 +470,14 @@ window.onYouTubeIframeAPIReady=function(){
     videoId:YT_ID,
     playerVars:{autoplay:1,controls:0,mute:1,playsinline:1,rel:0,modestbranding:1,showinfo:0,fs:0,disablekb:1,iv_load_policy:3,loop:1,playlist:YT_ID},
     events:{
-      'onReady':function(e){ytReady=true;e.target.mute();e.target.playVideo();},
+      'onReady':function(e){
+        ytReady=true;e.target.mute();e.target.playVideo();
+        // give YouTube's auto-shown title/info card time to disappear, then reveal the live video
+        setTimeout(function(){
+          var c=document.getElementById('heroCover');
+          if(c)c.classList.add('hide');
+        },5200);
+      },
       'onStateChange':function(e){ if(e.data===YT.PlayerState.ENDED){e.target.seekTo(0);e.target.playVideo();} }
     }
   });
