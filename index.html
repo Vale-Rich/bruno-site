@@ -132,7 +132,11 @@ section{position:relative;padding:clamp(80px,11vh,140px) clamp(20px,5vw,64px)}
   box-shadow:0 30px 80px rgba(120,80,40,.25),0 0 0 1px rgba(168,150,121,.25),0 0 0 8px rgba(255,255,255,.5);
 }
 .hero-video-frame #yt-bg,.hero-video-frame iframe{
-  position:absolute;inset:0;width:100%;height:100%;border:0;background:#1c1410;
+  position:absolute;inset:0;width:100%;height:100%;border:0;background:#1c1410;pointer-events:none;
+}
+/* invisible shield over the player to fully block any YouTube hover UI */
+.hero-video-frame::after{
+  content:"";position:absolute;inset:0;z-index:3;pointer-events:auto;background:transparent;
 }
 .hero-vsound{
   position:absolute;bottom:14px;right:14px;z-index:4;
@@ -333,6 +337,11 @@ footer{background:#efe6d6;color:#8a7a62;padding:48px clamp(20px,5vw,64px);text-a
     </div>
     <div class="hero-video-frame reveal">
       <div id="yt-bg"></div>
+      <button class="hero-vsound" id="heroSound" aria-label="sound">
+        <svg id="icoMuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M23 9l-6 6M17 9l6 6"/></svg>
+        <svg id="icoSound" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a9 9 0 0 1 0 14"/></svg>
+        <span id="soundLabel" data-i18n="sound.on">Увімкнути звук</span>
+      </button>
     </div>
   </div>
   <div class="scroll-hint"><span></span><div data-i18n="scroll">гортай</div></div>
@@ -444,25 +453,46 @@ footer{background:#efe6d6;color:#8a7a62;padding:48px clamp(20px,5vw,64px);text-a
 </footer>
 
 <script>
-/* ===== HERO VIDEO (YouTube with native controls) ===== */
+/* ===== HERO VIDEO (YouTube inline, no controls, no UI) ===== */
 var YT_ID="SnBEbM8jjag";
-var ytBg=null, ytReady=false;
+var ytBg=null, ytReady=false, soundOn=false;
 (function(){var t=document.createElement('script');t.src="https://www.youtube.com/iframe_api";document.head.appendChild(t);})();
 window.onYouTubeIframeAPIReady=function(){
   ytBg=new YT.Player('yt-bg',{
     videoId:YT_ID,
-    playerVars:{autoplay:1,controls:1,mute:1,playsinline:1,rel:0,modestbranding:1,fs:1,iv_load_policy:3,loop:1,playlist:YT_ID},
+    playerVars:{autoplay:1,controls:0,mute:1,playsinline:1,rel:0,modestbranding:1,showinfo:0,fs:0,disablekb:1,iv_load_policy:3,loop:1,playlist:YT_ID},
     events:{
       'onReady':function(e){ytReady=true;e.target.mute();e.target.playVideo();},
       'onStateChange':function(e){ if(e.data===YT.PlayerState.ENDED){e.target.seekTo(0);e.target.playVideo();} }
     }
   });
 };
-// unmute on the first user interaction anywhere on the page
-var firstTouch=function(){ try{ if(ytBg&&ytReady){ytBg.unMute();ytBg.setVolume(100);} }catch(x){} window.removeEventListener('pointerdown',firstTouch); window.removeEventListener('keydown',firstTouch); window.removeEventListener('touchstart',firstTouch); };
+function setSound(state){
+  if(!ytBg||!ytReady)return;
+  soundOn=state;
+  if(soundOn){ytBg.unMute();ytBg.setVolume(100);ytBg.playVideo();}else{ytBg.mute();}
+  var im=document.getElementById('icoMuted'), is=document.getElementById('icoSound');
+  if(im)im.style.display=soundOn?'none':'';
+  if(is)is.style.display=soundOn?'':'none';
+  var l=document.documentElement.lang;
+  var onT={uk:'Звук увімкнено',ru:'Звук включён',en:'Sound on'}[l]||'Звук увімкнено';
+  var offT={uk:'Увімкнути звук',ru:'Включить звук',en:'Unmute'}[l]||'Увімкнути звук';
+  var lbl=document.getElementById('soundLabel'); if(lbl)lbl.textContent=soundOn?onT:offT;
+}
+var hsBtn=document.getElementById('heroSound');
+if(hsBtn)hsBtn.addEventListener('click',function(e){e.preventDefault();setSound(!soundOn);});
+// auto-unmute on the first user interaction anywhere on the page
+var firstTouch=function(){ if(!soundOn){setSound(true);} window.removeEventListener('pointerdown',firstTouch); window.removeEventListener('keydown',firstTouch); window.removeEventListener('touchstart',firstTouch); };
 window.addEventListener('pointerdown',firstTouch);
 window.addEventListener('keydown',firstTouch);
 window.addEventListener('touchstart',firstTouch);
+// pause video when hero off-screen
+var heroSec=document.getElementById('top');
+if('IntersectionObserver' in window && heroSec){
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(!ytBg||!ytReady)return; try{ if(e.isIntersecting){ytBg.playVideo();}else{ytBg.pauseVideo();} }catch(x){} });
+  },{threshold:.05}).observe(heroSec);
+}
 
 var TELEGRAM_URL = "https://t.me/your_channel"; // ← ВКАЖИ СВІЙ TELEGRAM
 document.getElementById('tg-cta').href = TELEGRAM_URL;
