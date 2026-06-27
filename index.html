@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BRUNO — Give people what they never had</title>
+<meta name="description" content="BRUNO — увага, яку вони заслуговують. Стань тим повідомленням, на яке людина чекає весь день.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#241a14;
+  --night-2:#2e231a;
+  --deep:#1c1410;
+  --amber:#e8a84b;
+  --amber-soft:#f4cd8a;
+  --bruno-red:#c0392b;
+  --bruno-red-hi:#d6483a;
+  --cream:#f6efe3;
+  --ink:#2a1f16;
+  --muted-cold:#b8a892;
+  --muted-warm:#a89679;
+  --line-cold:rgba(184,168,146,.18);
+  --line-warm:rgba(168,150,121,.22);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Manrope',system-ui,sans-serif;
+  background:var(--night);
+  color:var(--cream);
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:500;line-height:1.1;letter-spacing:-.01em}
+.serif{font-family:'Fraunces',Georgia,serif}
+
+/* ---------- top bar ---------- */
+.bar{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px clamp(20px,5vw,64px);
+  background:linear-gradient(to bottom,rgba(36,26,20,.92),rgba(36,26,20,0));
+  transition:background .4s ease;
+  backdrop-filter:blur(2px);
+}
+.bar.warm{background:linear-gradient(to bottom,rgba(244,239,230,.92),rgba(244,239,230,0))}
+.bar.warm .brand,.bar.warm .lang button{color:var(--ink)}
+.bar.warm .lang button.active{color:var(--bruno-red)}
+.brand{display:flex;align-items:center;gap:12px;font-family:'Fraunces',serif;font-size:20px;font-weight:600;color:var(--cream);letter-spacing:.04em;transition:color .4s ease;text-decoration:none}
+.brand-logo{
+  width:42px;height:42px;border-radius:50%;flex:none;object-fit:cover;
+  background:#f4efe6;box-shadow:0 0 0 2px rgba(232,168,75,.35),0 2px 12px rgba(0,0,0,.4);
+}
+.brand b{font-weight:600;color:var(--amber)}
+.bar.warm .brand b{color:var(--bruno-red)}
+.lang{display:flex;gap:2px;align-items:center}
+.lang button{
+  background:none;border:none;cursor:pointer;
+  font-family:'Manrope',sans-serif;font-size:12.5px;font-weight:600;
+  letter-spacing:.06em;color:var(--muted-cold);
+  padding:6px 9px;border-radius:6px;transition:color .25s,background .25s;
+}
+.lang button.active{color:var(--amber)}
+.lang button:hover{color:var(--cream)}
+.bar.warm .lang button:hover{color:var(--bruno-red)}
+.lang .sep{width:1px;height:13px;background:var(--line-cold)}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--bruno-red);color:#fff;
+  font-family:'Manrope',sans-serif;font-weight:600;font-size:15px;
+  padding:15px 28px;border-radius:999px;border:none;cursor:pointer;
+  text-decoration:none;transition:transform .2s,box-shadow .3s,background .25s;
+  box-shadow:0 8px 30px rgba(192,57,43,.35);
+}
+.btn:hover{background:var(--bruno-red-hi);transform:translateY(-2px);box-shadow:0 12px 38px rgba(192,57,43,.45)}
+.btn svg{width:17px;height:17px}
+.btn-ghost{
+  background:transparent;color:var(--amber);
+  border:1px solid rgba(232,168,75,.4);box-shadow:none;
+}
+.btn-ghost:hover{background:rgba(232,168,75,.08);border-color:var(--amber);color:var(--amber-soft)}
+
+/* ---------- layout ---------- */
+section{position:relative;padding:clamp(80px,11vh,140px) clamp(20px,5vw,64px)}
+.wrap{max-width:1080px;margin:0 auto}
+.eyebrow{
+  font-family:'Manrope',sans-serif;font-size:12.5px;font-weight:700;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--amber);
+  margin-bottom:22px;display:flex;align-items:center;gap:12px;
+}
+.eyebrow::before{content:"";width:28px;height:1px;background:var(--amber);opacity:.6}
+
+/* ---------- hero ---------- */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  background:
+    radial-gradient(90% 70% at 85% 15%,rgba(232,168,75,.12),transparent 55%),
+    radial-gradient(70% 60% at 5% 90%,rgba(192,57,43,.06),transparent 60%),
+    linear-gradient(165deg,#f9f3e8 0%,#f3e9d8 55%,#ecdfc8 100%);
+  color:var(--ink);padding:110px clamp(20px,5vw,64px) 70px;
+}
+.hero-inner{
+  position:relative;z-index:2;width:100%;max-width:1180px;margin:0 auto;
+  display:grid;grid-template-columns:0.92fr 1.08fr;gap:clamp(32px,5vw,64px);align-items:center;
+}
+.hero-copy{max-width:540px}
+.hero-glow{
+  position:absolute;top:8%;right:10%;width:min(34vw,360px);aspect-ratio:1;
+  background:radial-gradient(circle,rgba(232,168,75,.18),transparent 65%);
+  filter:blur(10px);pointer-events:none;animation:breathe 7s ease-in-out infinite;z-index:0;
+}
+@keyframes breathe{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:.75;transform:scale(1.06)}}
+.hero h1{
+  font-size:clamp(28px,3.8vw,46px);max-width:18ch;font-weight:500;
+  letter-spacing:-.015em;margin-bottom:22px;line-height:1.13;color:var(--ink);
+}
+.hero h1 .warm-word{color:var(--bruno-red);font-style:italic}
+.hero .lede{
+  font-size:clamp(15px,1.5vw,17px);color:#6a5a45;
+  max-width:42ch;margin-bottom:30px;
+}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+/* video frame */
+.hero-video-frame{
+  position:relative;z-index:2;border-radius:22px;overflow:hidden;
+  aspect-ratio:16/9;background:#1c1410;
+  box-shadow:0 30px 80px rgba(120,80,40,.25),0 0 0 1px rgba(168,150,121,.25),0 0 0 8px rgba(255,255,255,.5);
+}
+.hero-video-frame #yt-bg,.hero-video-frame iframe{
+  position:absolute;inset:0;width:100%;height:100%;border:0;background:#1c1410;
+}
+.hero-vsound{
+  position:absolute;bottom:14px;right:14px;z-index:4;
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(0,0,0,.5);color:rgba(255,255,255,.9);
+  border:1px solid rgba(255,255,255,.25);border-radius:999px;
+  font-family:'Manrope',sans-serif;font-size:12.5px;font-weight:600;
+  padding:9px 15px;cursor:pointer;backdrop-filter:blur(6px);
+  transition:background .25s,border-color .25s;
+}
+.hero-vsound:hover{background:rgba(0,0,0,.72);border-color:rgba(232,168,75,.55)}
+.hero-vsound svg{width:16px;height:16px;flex:none}
+.scroll-hint{
+  position:absolute;bottom:24px;left:50%;transform:translateX(-50%);
+  font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted-warm);
+  display:flex;flex-direction:column;align-items:center;gap:8px;opacity:.7;z-index:2;
+}
+.scroll-hint span{width:1px;height:30px;background:linear-gradient(var(--bruno-red),transparent);animation:drop 2s ease-in-out infinite}
+@keyframes drop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* mascot dot in hero */
+.hero-mascot{
+  display:inline-flex;align-items:center;gap:12px;margin-bottom:22px;
+  padding:8px;border:1px solid var(--line-warm);border-radius:999px;
+  width:max-content;background:rgba(255,255,255,.5);
+}
+.hero-mascot .ico{
+  width:36px;height:36px;border-radius:50%;flex:none;object-fit:cover;background:#f4efe6;
+}
+.hero-mascot .tx{font-size:13px;color:#6a5a45;padding-right:8px}
+.hero-mascot .tx b{color:var(--ink);font-weight:600}
+
+@media (max-width:860px){
+  .hero{padding-top:96px}
+  .hero-inner{grid-template-columns:1fr;gap:30px}
+  .hero-copy{max-width:none;order:1}
+  .hero-video-frame{order:2}
+}
+
+/* ---------- problem (still cold) ---------- */
+.problem{background:linear-gradient(180deg,#2a3145,#222a3d);color:#dfe5f0}
+.problem .eyebrow{color:#9fb4d8}
+.problem .eyebrow::before{background:#9fb4d8}
+.problem h2{font-size:clamp(26px,4vw,46px);max-width:20ch;margin-bottom:26px}
+.problem p{color:var(--muted-cold);max-width:52ch;font-size:17px}
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:28px;margin-top:60px}
+.stat{border-top:1px solid var(--line-cold);padding-top:18px}
+.stat .n{font-family:'Fraunces',serif;font-size:clamp(30px,4vw,44px);color:var(--amber-soft);line-height:1}
+.stat .l{font-size:14px;color:var(--muted-cold);margin-top:10px;max-width:24ch}
+
+/* ---------- warm transition wrapper ---------- */
+.warm{
+  background:
+    radial-gradient(100% 60% at 50% 0%,rgba(159,180,216,.10),transparent 55%),
+    linear-gradient(180deg,#222a3d 0%,#3a3a44 18%,#5e4f3e 48%,#8a7152 72%,var(--cream) 100%);
+  color:var(--cream);
+}
+.idea h2{font-size:clamp(28px,4.6vw,52px);max-width:18ch;margin-bottom:28px}
+.idea .big{font-size:clamp(20px,2.6vw,26px);max-width:30ch;color:var(--amber-soft);font-family:'Fraunces',serif;font-style:italic}
+.idea p{color:#cdbfa8;max-width:50ch;margin-top:24px;font-size:17px}
+
+/* ---------- mission (warm/cream) ---------- */
+.cream-sec{background:var(--cream);color:var(--ink)}
+.cream-sec .eyebrow{color:var(--bruno-red)}
+.cream-sec .eyebrow::before{background:var(--bruno-red)}
+.mission h2{font-size:clamp(28px,4.6vw,52px);max-width:16ch;margin-bottom:30px;color:var(--ink)}
+.mission .quote{
+  font-family:'Fraunces',serif;font-size:clamp(22px,3.2vw,34px);font-style:italic;
+  line-height:1.3;max-width:20ch;color:var(--bruno-red);margin:10px 0 34px;
+}
+.mission p{color:#5a4f43;max-width:52ch;font-size:17px;margin-bottom:18px}
+.flip{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:50px}
+.flip>div{padding:26px;border-radius:16px}
+.flip .no{background:#ece4d6;border:1px solid var(--line-warm)}
+.flip .yes{background:#fff;border:1px solid rgba(192,57,43,.2);box-shadow:0 10px 40px rgba(120,80,40,.08)}
+.flip h4{font-family:'Manrope';font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px;font-weight:700}
+.flip .no h4{color:#a08a6a}
+.flip .yes h4{color:var(--bruno-red)}
+.flip ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+.flip li{display:flex;gap:11px;align-items:flex-start;font-size:15.5px;color:#4a4136}
+.flip li svg{width:17px;height:17px;flex:none;margin-top:3px}
+.flip .no li{color:#8a7d6c}
+
+/* ---------- how ---------- */
+.how{background:#efe7da;color:var(--ink)}
+.how .eyebrow{color:var(--bruno-red)}
+.how .eyebrow::before{background:var(--bruno-red)}
+.how h2{font-size:clamp(26px,4vw,44px);margin-bottom:50px;max-width:16ch}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:30px;counter-reset:s}
+.step{position:relative;padding-top:26px;border-top:2px solid rgba(192,57,43,.25)}
+.step::before{
+  counter-increment:s;content:"0" counter(s);
+  font-family:'Fraunces',serif;font-size:15px;color:var(--bruno-red);font-weight:600;
+  position:absolute;top:-2px;left:0;background:#efe7da;padding-right:12px;transform:translateY(-50%);
+}
+.step h3{font-size:21px;margin-bottom:10px;color:var(--ink)}
+.step p{font-size:15px;color:#5a4f43}
+
+/* ---------- stories ---------- */
+.stories{background:var(--cream);color:var(--ink)}
+.stories .eyebrow{color:var(--bruno-red)}
+.stories .eyebrow::before{background:var(--bruno-red)}
+.stories h2{font-size:clamp(26px,4vw,44px);margin-bottom:14px;max-width:18ch}
+.stories .sub{color:#5a4f43;max-width:48ch;margin-bottom:50px;font-size:17px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.card{
+  background:#fff;border-radius:18px;overflow:hidden;border:1px solid var(--line-warm);
+  box-shadow:0 12px 40px rgba(120,80,40,.07);transition:transform .3s,box-shadow .3s;
+}
+.card:hover{transform:translateY(-5px);box-shadow:0 20px 50px rgba(120,80,40,.13)}
+.card .art{
+  height:150px;display:grid;place-items:center;position:relative;overflow:hidden;
+  font-family:'Fraunces',serif;font-style:italic;color:rgba(255,255,255,.85);font-size:15px;text-align:center;padding:0 18px;
+}
+.card .art::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,.25))}
+.card .art span{position:relative;z-index:1}
+.a1{background:linear-gradient(135deg,#33384e,#454a66)}
+.a2{background:linear-gradient(135deg,#4e3d52,#6e5470)}
+.a3{background:linear-gradient(135deg,#444248,#605a5a)}
+.a4{background:linear-gradient(135deg,#3a3c4e,#54566e)}
+.a5{background:linear-gradient(135deg,#5a4232,#7a5a40)}
+.card .body{padding:20px}
+.card h4{font-family:'Fraunces',serif;font-size:19px;margin-bottom:8px;color:var(--ink)}
+.card p{font-size:14.5px;color:#5a4f43}
+
+/* ---------- final CTA ---------- */
+.final{
+  background:
+    radial-gradient(80% 60% at 50% 35%,rgba(232,168,75,.20),transparent 60%),
+    linear-gradient(180deg,#f3e9d8 0%,#f6efe3 45%,#f9f3e8 100%);
+  text-align:center;color:var(--ink);
+}
+.final .mascot-big{
+  width:88px;height:88px;border-radius:50%;object-fit:cover;
+  background:#f4efe6;margin:0 auto 34px;display:block;
+  box-shadow:0 0 0 6px rgba(244,239,230,.12),0 20px 60px rgba(0,0,0,.4);
+}
+.final h2{font-size:clamp(28px,5vw,58px);max-width:16ch;margin:0 auto 22px;font-style:italic;color:var(--ink)}
+.final p{color:var(--bruno-red);font-size:clamp(17px,2.2vw,22px);margin-bottom:42px;font-family:'Fraunces',serif}
+.final .btn{font-size:16px;padding:17px 36px}
+
+/* ---------- footer ---------- */
+footer{background:#efe6d6;color:#8a7a62;padding:48px clamp(20px,5vw,64px);text-align:center;border-top:1px solid var(--line-warm)}
+.foot-brand{display:inline-flex;align-items:center;gap:11px;font-family:'Fraunces',serif;font-size:22px;color:var(--ink);margin-bottom:18px}
+.foot-tag{font-size:14px;max-width:40ch;margin:0 auto 24px;font-style:italic;font-family:'Fraunces',serif;color:var(--bruno-red)}
+.foot-links{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
+.foot-links a{color:#8a7a62;text-decoration:none;font-size:14px;transition:color .2s}
+.foot-links a:hover{color:var(--amber)}
+.foot-copy{font-size:12.5px;color:#a89679;opacity:.7;letter-spacing:.04em}
+
+/* ---------- paw trail ---------- */
+.paw-trail{
+  position:fixed;inset:0;width:100vw;height:100vh;
+  pointer-events:none;z-index:1;opacity:.5;mix-blend-mode:normal;
+}
+/* ---------- reveal animation ---------- */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+@media (max-width:720px){
+  .flip{grid-template-columns:1fr}
+  .hero h1{font-size:clamp(30px,8vw,46px)}
+  .lang button{padding:6px 6px;font-size:11.5px}
+  .brand span{display:none}
+}
+</style>
+</head>
+<body>
+
+<canvas id="pawTrail" class="paw-trail" aria-hidden="true"></canvas>
+
+<div class="bar" id="bar">
+  <a href="#top" class="brand"><img class="brand-logo" src="data:image/jpeg;base64,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" alt="BRUNO"><span>BRUNO<b>.TEAM</b></span></a>
+  <div class="lang" id="lang">
+    <button data-lang="uk" class="active">UA</button><div class="sep"></div>
+    <button data-lang="ru">RU</button><div class="sep"></div>
+    <button data-lang="en">EN</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <div class="hero-mascot reveal">
+        <img class="ico" src="data:image/jpeg;base64,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" alt="Bruno">
+        <span class="tx" data-i18n="hero.badge"><b>Bruno</b> — увага, яку вони заслуговують</span>
+      </div>
+      <h1 class="reveal" data-i18n-html="hero.h1">Іноді людям не потрібне ідеальне життя.<br>Іноді їм просто треба відчути, що вони <span class="warm-word">комусь потрібні</span>.</h1>
+      <p class="lede reveal" data-i18n="hero.lede">Bruno — це не агентство і не «робота в чаті». Це місце, де розуміють самотність і вміють перетворювати увагу на цінність.</p>
+      <div class="hero-cta reveal">
+        <a href="#join" class="btn" data-i18n="cta.primary">Стати оператором Bruno
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#idea" class="btn btn-ghost" data-i18n="cta.learn">Що таке Bruno</a>
+      </div>
+    </div>
+    <div class="hero-video-frame reveal">
+      <iframe id="yt-bg" src="https://www.youtube.com/embed/SnBEbM8jjag?autoplay=1&mute=1&controls=0&loop=1&playlist=SnBEbM8jjag&rel=0&modestbranding=1&playsinline=1&iv_load_policy=3" title="Bruno" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+      <a class="hero-vsound" id="heroSound" href="https://youtu.be/SnBEbM8jjag" target="_blank" rel="noopener" aria-label="sound">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a9 9 0 0 1 0 14"/></svg>
+        <span id="soundLabel" data-i18n="sound.watch">Дивитись зі звуком</span>
+      </a>
+    </div>
+  </div>
+  <div class="scroll-hint"><span></span><div data-i18n="scroll">гортай</div></div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem">
+  <div class="wrap">
+    <div class="eyebrow reveal" data-i18n="problem.eyebrow">Холодний світ</div>
+    <h2 class="reveal" data-i18n="problem.h2">Кожен день мільйони людей проживають ще один день, не відчувши себе важливими ні для кого.</h2>
+    <p class="reveal" data-i18n="problem.p">Не тому, що навколо нікого немає. А тому, що ніхто не написав. Не спитав, як справи. Не дочекався вдома. Самотність буває різною — але відчуття одне.</p>
+    <div class="stat-row">
+      <div class="stat reveal"><div class="n">1</div><div class="l" data-i18n="problem.s1">повідомлення може змінити цілий день людини</div></div>
+      <div class="stat reveal"><div class="n">∞</div><div class="l" data-i18n="problem.s2">людей засинають, так і не почувши тепла</div></div>
+      <div class="stat reveal"><div class="n">0</div><div class="l" data-i18n="problem.s3">маніпуляцій, скаму чи продажів. Тільки увага</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- IDEA (warm transition) -->
+<section class="warm idea" id="idea">
+  <div class="wrap">
+    <div class="eyebrow reveal" data-i18n="idea.eyebrow">Тепло приходить тихо</div>
+    <h2 class="reveal" data-i18n="idea.h2">Bruno — це не компанія. Це ідея.</h2>
+    <p class="big reveal" data-i18n="idea.big">«Іноді одне повідомлення може нагадати людині, що вона ще жива.»</p>
+    <p class="reveal" data-i18n="idea.p">Bruno працює не з «чатами», а з людським відчуттям потрібності. Ми не рятуємо світ. Але іноді ми робимо чиєсь життя трохи менш самотнім.</p>
+  </div>
+</section>
+
+<!-- MISSION -->
+<section class="cream-sec mission">
+  <div class="wrap">
+    <div class="eyebrow reveal" data-i18n="mission.eyebrow">Місія оператора</div>
+    <h2 class="reveal" data-i18n="mission.h2">Ти можеш бути тим повідомленням, на яке людина чекає весь день.</h2>
+    <div class="quote reveal" data-i18n="mission.quote">Я не просто пишу за гроші. Я створюю стан.</div>
+    <p class="reveal" data-i18n="mission.p1">Робота оператора Bruno — це не «вибивати донати». Це бути присутнім. Уважним. Людяним. Гроші — наслідок правильно створеного відчуття, а не мета.</p>
+    <div class="flip">
+      <div class="no reveal">
+        <h4 data-i18n="mission.no.t">Bruno — це не</h4>
+        <ul>
+          <li data-i18n="mission.no.1">не маніпуляція й не «розвод»</li>
+          <li data-i18n="mission.no.2">не продажі та не скам</li>
+          <li data-i18n="mission.no.3">не «брудний» чатинг</li>
+        </ul>
+      </div>
+      <div class="yes reveal">
+        <h4 data-i18n="mission.yes.t">Bruno — це</h4>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="mission.yes.1">справжній людський зв'язок</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="mission.yes.2">емоційна безпека й присутність</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="mission.yes.3">увага, яку людина заслуговує</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section class="how">
+  <div class="wrap">
+    <div class="eyebrow reveal" data-i18n="how.eyebrow">Як це працює</div>
+    <h2 class="reveal" data-i18n="how.h2">Простий шлях від заявки до перших теплих слів.</h2>
+    <div class="steps">
+      <div class="step reveal"><h3 data-i18n="how.1.t">Залиш заявку</h3><p data-i18n="how.1.p">Напиши нам у Telegram. Без резюме й формальностей — просто розкажи трохи про себе.</p></div>
+      <div class="step reveal"><h3 data-i18n="how.2.t">Пройди онбординг</h3><p data-i18n="how.2.p">Ми покажемо, як спілкуватись тепло, уважно й щиро. Навчання з нуля.</p></div>
+      <div class="step reveal"><h3 data-i18n="how.3.t">Стань присутністю</h3><p data-i18n="how.3.p">Ти починаєш писати людям, які чекають уваги. І бачиш, як змінюється їхній день.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- STORIES -->
+<section class="stories">
+  <div class="wrap">
+    <div class="eyebrow reveal" data-i18n="stories.eyebrow">Реальні історії</div>
+    <h2 class="reveal" data-i18n="stories.h2">П'ятеро людей. Одна тиха зміна.</h2>
+    <p class="sub reveal" data-i18n="stories.sub">Кожен з них був сам у своєму вечорі. Кожному вистачило, щоб хтось був поруч.</p>
+    <div class="cards">
+      <div class="card reveal"><div class="art a1"><span data-i18n="stories.c1.art">Сам перед телевізором</span></div><div class="body"><h4 data-i18n="stories.c1.t">Чоловік</h4><p data-i18n="stories.c1.p">Вечеря наодинці. Телефон, на якому ніхто не пише. Одне повідомлення — і вечір став іншим.</p></div></div>
+      <div class="card reveal"><div class="art a2"><span data-i18n="stories.c2.art">Нічний скролінг</span></div><div class="body"><h4 data-i18n="stories.c2.t">Молода жінка</h4><p data-i18n="stories.c2.p">Гортала стрічку, щоб не думати. А потім хтось написав щось тепле — саме їй.</p></div></div>
+      <div class="card reveal"><div class="art a3"><span data-i18n="stories.c3.art">Хотів написати, але стер</span></div><div class="body"><h4 data-i18n="stories.c3.t">Старший чоловік</h4><p data-i18n="stories.c3.p">Боявся бути зайвим. Аж поки не отримав відповідь, якої давно не чекав.</p></div></div>
+      <div class="card reveal"><div class="art a4"><span data-i18n="stories.c4.art">Left on seen</span></div><div class="body"><h4 data-i18n="stories.c4.t">Молодий хлопець</h4><p data-i18n="stories.c4.p">Чекав відповідь, що не приходила. Поки хтось нарешті не озвався по-справжньому.</p></div></div>
+      <div class="card reveal"><div class="art a5"><span data-i18n="stories.c5.art">Порожня квартира</span></div><div class="body"><h4 data-i18n="stories.c5.t">Офісний працівник</h4><p data-i18n="stories.c5.p">Повертався туди, де ніхто не чекав. Тепер вдома його зустрічало тепло.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final" id="join">
+  <div class="wrap">
+    <img class="mascot-big reveal" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAQDAwQDAwQEBAQFBQQFBwsHBwYGBw4KCggLEA4RERAOEA8SFBoWEhMYEw8QFh8XGBsbHR0dERYgIh8cIhocHRz/2wBDAQUFBQcGBw0HBw0cEhASHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBz/wAARCACAAIADASIAAhEBAxEB/8QAHQAAAgIDAQEBAAAAAAAAAAAAAAYHCAMEBQIJAf/EAEQQAAEDBAAEAwUECAMFCQAAAAECAwQABQYRBxIhMRNBUQgUImFxFTKBkRYjQlJicqGxksHRFzNDU/E0REVVc4KDlKL/xAAbAQACAgMBAAAAAAAAAAAAAAAABQMEAQIGB//EADMRAAEDAgUBBQcFAAMAAAAAAAECAxEABAUSITFBURNhcYGRBhQiobHB8BUyQlLR0uHx/9oADAMBAAIRAxEAPwC9VFFFLKsUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUf9a0Lze7bjttfuV3nxoFvYG3JElwNoT+J/t3qCciSrjW+ZTWXXNOBE8rVut8VcEzgO6lvqPO42T25QlJ+fetXHG2Udo8YT+aDvrKELcVkbEmpGyPjfw6xOSuLdsxtLEtH3mEPeM4k+hSgEg1oW/2ieFlyQpTOc2dHKOYpkOKZUB9FgVxbBhON4tGTHs1it0FtP/KYTzH5lZBUT9TW5OxyyXQoNwstrmKQQpJkRG1kH12RSr9etM0ZFR1kfSPvVz9Nfj9w9D9f+qyq9pjhOl3w/wBN7eeuudKHSgf+7l1T7jeX2DMInvVgvVvukcd1w30ucv1AOx+IpHTb4iGfAbhxkM614aGEBGv5dapHyDg/j90li6WtLuO5A2eZq62U+7vJV/ElOkrHqCKy3jtotWVSVJHXQ/LT71hWHPpEgg923+1YqiovwPiFHjSW8RyrKIkrLm+ranoZgmY2fuqQFEocV6lB/AVKHnrzptoQFDUHY9apcwdxRRRRRWaKKKKKKKKKKKKKT+JGZ2/DMdW7Kuxt86cr3W3lqN70+7IV90Nsf8Q/LoPUit/OM0tXD7F7jkV5eLcGEjmKU/fdWeiW0DzUo9AKgLHbVd8juLmc5gNZNPaKYMLu3ZYquzSB/wAxQ6rV366qK5uW7Rkvu7DYdT0/2pGGVXDgaR5noKhzOs4sluzLwckdv3EPK4ryWmmJiUsQ47itFKW2E7SVdQOgV186lJnOeK6EISjhjAbToaQu8JCgPQjypKzDELVjHGTA8mQCkTrqGpi1q2nxSjTatHon06egqWuLd6yXHsJlOYhZpVxvb/6pC4yAv3YHu6U91EdgAD1PypNc3Ldz7uUICy4NSsmAZggAEAARPhFXkMLYLoUopCToEgaiJBMgkmuEeIXE6A0X5/Csux0dVCBdEOOa89JI+Ktq3e0Tw9mQGpEq+C3PqJS5DmMrDzKgdEKCQR3/ADqGuA104iLzaC1Pt1/bgbeN5l3Vx0srTykoUPE6JWlWgOXvs76UycOOGuM8UcmzzMbvbRNs865uMW5C1KSkhP8AvHk8pHUnQB+tSXFhZtFfvKYCQDLZOsmIIUVa8jUaVC1dXCwnsjJM6KHQTMgDw8ad5vHiJc7p9lYHY5mXzkthx1yKsMxmQe3M4of5VjOdcW09TwxhAHtu7j/SkbhxAu3D61cW8OsDQcy+AszLaHACqSyUANrG+iiB+GzSVwtv/FOBk8Eqx/KZrpl7uqpxcLbrKtAjlc0lCk9VBST5a7VucOtwHAwlBCIgrJlUiZ0UkAcDTetRdunL2ilAmZygQIMRqCSafOI2fXg2JH+0ThS25ZC6EiTGuCXVR1nsQQNoV6HY3TZwe4oW2zw492Xn9+dwduR7k5DvMFL5guqSOQLk750N9RpRChvoSK6/tBux43B/KfFA5nmm2mxrqpwup5dfPpXH4b4JAxnGU2tqOlbUpsKuDcglYkKWgBYIPl01ry1UDGKM21ml4oKSVEZQTlIAEmFEwRO4qycPcfuFICpATMncEzA0iRpzVsG3EOtocbWlaFgKSpJ2FA9iD5ivVVs4e5XI4OZLBw+7ynH8EvDvhWSc+rmVbXz/AN0cUf2D+wT27eurJ09SpC0hxsylWoP586WEKSooWII3oooorNFFFFFFFVd4qZNb8j4723HL5MQm2Y4hh6DbSCr364vJKgtSR3S2gb69AT86eCoklSjsk7JPnS57ReHW/HZ1m4nxbepyXb7pHcuz6AVKEUNLaSoDySkqST+flWphmWpymw2a7JUnkmxkqWE9kudlD8FAiua9qWnD2TyZyRHcFaz9Jp1gS0nO0Yzb+I0/8pS4pW9nI51lxuW8qOi8SXW2pKB8TEhtvxGlj8QRrzBruwLhxjsEdmJIseP5MhCQlM5mcYjix5FaVDW/XQpV4tSVJybh49HP637eQEj1BTo09ZDxWVY+J2LYMxbEOG7IS47MedKQ2k8+ghIHxK+A9zrrqq1ol02zSEICwUqUQeIJkyCDtHOsDSpL0oD61LUUkFIkd4EDkbz61wsoi8Rcvs01vJ5tnwnFWmlLnriSVSpS2QNrTznSUDXp3+fakeF7SFvxq3wrPiOGpTj8NsNRnLlcUxVuo/fDYSojffaup3upr4w4vMzThlklktyymdKjbaT28RSFBfIf5uXX4182XkvsvvMyEvJfaWQ4h1BStBH7JB67p/gNrbYk0oPgAJP7RIG251knjUmKTYk67ZrBbOpH7jr5dBVz2cnt3GK/2yZapD2HcRYDavcH1rRIjz2e62ipPRxI6kpICgCTojs+C/cX4TfgyMQxy5uJGhIi3ZTKFfPkWkkfSqpezbjN2yjiTZXmCs2iySvtGQ6N8jZSkhCN/vKJ1r02au5n+RSMRwy9XyLHZkSLdHL4ZeUUoXojYJHXsTVTGG27a6RZspCxpAV/GTtIIMcwTpNWLEqeZVcOEpPJHMcxBHpUMZ9bM1vcFd9ztVpttisDa7i1Z7c4p0yHkJPIXHD0ICtdP6dak3Gyt+ExJcO1uMtlX8xSCf6moy4qZuc39n1eRx4i4iLkhDbrKlc3hgPBK+vmOnQ+hqTrG+0zZ21II5Q2gp+Y5BqkWKdoWE9qkJKVKTA2EBJPqTqSTTrDsmZQbJMpSZO5kn/Nq1OIMaxSsNurGSrDVlWgB57lJLJKgEuDQJBSogg+VPvs8ZpKzXhnDenykTLha5D1rfloOxJLKtJd358yCk/Wq/8AF3KpN3fj8PLawZN0yOK22htsbKHFyEaJ9AEJcUfkN1bbEMMtGDWx23WWMmPFekOSloT90uL0VEDyGx0HlXR4CwtmwzOz8ZlI4jr5/ak2KupcusqP4iD49PL7136KKKaVRoooooorHIjtS2HWH2m3WHUlDjbiQpK0kaIIPcEeVVIZxyLw44o5ThdrK0WRyOzeYMcq37sHSUuND+HmAIq3dQvxB4Cys2zt3JoeZzbIJUFqBJZjRULcU2hRPwOKPwb36Gorq3F1bOW5MZhpMwCCOlS2z5t30PATG/hFQNIukPLuNmNWViU0pvHEvTnxvfO/ygBsepSNE+nX0pp492J17B/0ptjSf0gxZ9qew+lPx+Ghe1p3+7ok6+RrlcSoeE8KeJ3DDGLGlENNqEmRcZTiuZZ94TpKnnD1KlchPXsNaFSxHuEObZ1vrR71bZcbnUgI5vFaUnf3fPaT2+dc9iKDhdzaluShKR5/EZ9d46GKa2rgv2ns8ZifTQR6fWuNhXFrH+IuPsTbdPjtzVIBkQXHAl1heviGieqd9iOmqgnjvf8AAZriClFun39uUwXXI6AtSWkrBcC1p6Hadp0ST1qM77wjZxnivYoCPEl4ZfZCXIExpZCXWFgnw+YdlJPQ+etetPeaYM1jdjS1BiMtxPfIvxNI0T+uT0V57pozhdpbXSLllxUK1AGnOxO/lA7zW9qi4vrZxC8oy6EkSTpOg0HnPlU+8OclxSdamkYtItqIDX/AjBLfhfzI6EH6/nSNxb4kwM6vtn4YY3MRLdvExtu5yWFcyG2Eq5lthQ7nSSVEdABrzqLuIvDmHGw6939cdEO4x2w4jwfgKviAPMB06g9u9Nns0cLf0PW3lGQtlq/3SOv7LhOD9YxG6c76x+zzbCRvyPqelZFha2SF3+cqInKD/aN55jfYUYgm4DybJQABiSmdpjY7T4mph4iY1bJ2BXmwstMw7YiG4ltKEhKGdbUFa+RGz+NJHCbMIuV4ZAWl5JmQWUR5jW/iSpI0FfRQGwfrXV455DEtfD6+Q3ZQZmz4biI6N6U4eZKSB/jH4bpkx7hLjnFTB8RzDEbu/jl+TbGYjsyE0laHi2gIW2+yeiilSSN9D271Tw7DDf4csuKIJXKSdpjWe4/UUXN+LK8QECRlgjnfT0+9b3sxYnAulpmcTZzIfyG/yH0MvOdfdYqFltDbfpsJ6nue1WFpM4V4COGWD27GRcl3H3RTqzJW0G+YrWVkBIJ0AT060511TmXNCNhoPAbUgTMSrc6nx5oooorStqKKKKKKK/FKQhJU4oJQkbUonQA8yT6Us55xAsHDewu3nIZojxUnkbbSOZ19fkhtHdSj/wBdVUPPeJOVcWVrbui3bHiqjtuxxndOyE+RkuDvv9wdK2IShPaOGE/m3WrNnZ3F872NsnMr5DvJ4/IpNyJLXEG7Z1dJTqXvti7yEtPJVzBLbKuRnR9AB+Rpw4NcVVyJcHC7u0I063wwyh1R1460KI0P/j5SPXRqN7EUWLJLlYwlLUWVqZDSOiU9NLQPy/pXSv2Os3ZKXUEsTWyFtSW/hcQodiD8qXYj2VyVMv8A7FwUn+ukAx04I7q7S3wVTlk2u1gPM5kLH9oJJE8GdUnv1qTbtYjMud+wNqY3DXc1Iv8AjTzo2hmWhe3mknyHMOblHktVc6VmE6zpMLMcSu8KWjXMuNDVLivEHYUhaN+YBAPak5GZxr/CYx/P1uW+4R3A5AyCOSgJcHZfMP8Adr9fI+eqfrfeOL9jYQ3br1YMkgqSCzKnAtulPkSpJAV9dndVUKVboDdxlnvJAPGZK4I1AGYHWZPNIEqft3V+7g94iSO5SdDpJgjQisMW33niDJiTbnancfwK2PJuE2TdgG3piWjzhIbP3UbAJKu/9KY8Ovfj2i+Z/e1lld5WqS34vT3aA3sMIA8hy7WR5ldIOXSbtIaamcV8siJtAV4jdhtaSluSpPUBWvicG/Lt8xSte8kvPE0ojvMKtWKtlJRCHRyQB93nI7J7aSOn960faN43AIDfKhMADWEk6rUTEkaCANq3tUXFxdSQVO8Ax6qjRKQNp1MnmsF0y9/jBfbRcX4ZjW6yNK0knYcfUve/8IR0qwPsk30Q7pnWILeHK1JbusRsq68rqdOAD0Cgk/jUKssRLRC5EIQxEZSVq5RoADqTSxi0KRcFO5OiVLt12ekF+HMirKHoyE9E6PmCB1B6Gmto+0lC4GRoQlI3gkz/AKTTXEvZ9YZZs2oXcElajtIAj/iB69a+mdFK/Dd2+ycFx97JpLUi9uxkrkvNN+GFknYPL5Hl5d/PdV7vntO3qXid7Me0xIkpyYq3xZLTqiW0lClFzR7qAA111tW/KmFvaOXBIb1j71wVxcJt9HNDr8qmq1cTE3ritdMOgsMyYNugB9+a0vZbf5gC2fIjRA9QQfwkKvnbg3FLI+HCJosL8VtMtSVvB+Ml0rKQddT111Pn3JNX9xi4SbtjlonzENty5cRp91DW+RKlIBIG+uuvnVrEbH3Ygjbbz5qtY3fbgg711a8PPNx2nHnnEttNpK1rUdBKQNkn5AV7qIPaayZ7HOEN4aiLKJ96W1aY5B68zytK/wDwFUvbRnUE9avKMCarLlGWSOKuXyMwnlRt7S1sWKIv7keOlWvG1++sje/9BWvvqf71+pitQG2ojA/UREJZQPkkarm2qaqQ9cYrhJdhyS2fmkjmSfyOvwpLduquVqWP2p2HQfm/jXsuDWTWF27VvHxL3PVUSflMdwrQyqzvT2I02EoIudvX4rCj2V6oPyNcRV+v2R/qYUZVpjgBLr7g25zeYQP8/wCtPZ6mvKG0oJKUgH1oZvMjYSpAURsTx5bHzqS6wftny626pAXGcJ0zRoNdxpoYgkQOKQzg7oZWY8mSt1fVwSj4jb5/iSe31HUVvWbML9w1U1brclM6LOCvCtklRV7s5r7yFD9jfcef9acdn8q0sHxePmvEK+NS7pCtyYUUNsvzVcre0p51IB9Tv8ge/arVvcLvApu4SFpAmDydAPmfGNBSDGsHsrJtC2pbJIGYSYEFSjGu4BEbEkE6iaSJdmvF5uhuFxnCVdHRtyU4nn8L0Q0jsNep6DyFZVY1dbSTLtVwlCTrbiZSudD319KfEJShIKEhIPkKkvCcDs+Q4rJvEtN/fkx5qYio9qYQ6SFAEK0eugD1NYbv7hwhtAEAbQIgceHd6VZfwTDbBntV5hJEEEyCdjMjXqTvsdKrw5crrljabM7b3IIJHvz37JSD91H1p6aYQxHbZaSENtpCEpA6AAaFM+d4tFw7K51ojSxKbj8uneUBQ5kg8qgOgUN9aXQe/X8KqXbxUeySnKE8Dryab4RapSj3ouFxSwPiIg5eBAiN5PUmaufw6y2BmeKxXIroTJYZTHksg/EysJ5fyOtg1Fc72Uba7Yvs2Jk05txEpcpLr0dtYJUhKOVQBHYJ7g+ZqNeCuWPWviDEDKiIz8v7OfTvo4CB1/BRGvpVzwD6E6705sb15tPwmDz+edeWe0eDs29zCfiQqSO7WCPUekVU63+yNdGrxEM/ILc9aEupMgNNuodW2DspSOwJHTe+m91KGd8erDhsPIbfBaku3uzrRCaacaPhKeUglPx76pSBs+Z1rzr3xJ4lSIuZ43hWOywze5E1iROeWUhpmKNqWhZV5qSO3fWvMitHL/Zws+XSrxPRfrhHk3Wd9oFXI242lXKU8oHQlOifPdOS72pQu+OnHrzHWuV7PswpNoNeamyq2+1XJcfufDe18izGM+TPdVynl201pIJ7b2smrJVhlRI85lTEphp9lXdt1AUk/gaUJUUyR0PzFOGlJS4lahIBB8YMxVBSSo7Pn1pTt75j5xcGCTyzYiHh/Mg6P9DV57xwPwy7qUtNvcguq/ahOlA/wnYqM7p7JMN2/wAS7W7KJLJjtrbLMiKlYWFfxJI1+VLmLVSM6VbFJHnuPmK9CufamzuOxWiUlCwTI41SraeCag/yoFTTK9m2/t792u9seH8YWg/2Nct72fMyb6oTbXf5ZWv7iqJtnR/GujR7QYavZ8een1qKj2NKseROtd7viRZ5ktqW+h1txvkSj7gB2VH5VOi+A+cJ7W6Kr6S0VjPArOD/AOFM/wD22/8AWpGQ41mHZyFCOeoPHhVe7vrC5Lak3SUlBkEFPQjmRselRwOo3rR9PSpPwvJLJb8GmWeVkVys9xk3BMrxoUZSylCUhIGwR37/AC1WEcCc4/8AK2B9Zbf+tZ2uAWbLOlRYLY9VTE/5VhpDzSswT9azfX2GXbYbcuEiCDoU8eMj5UvcSckgZXlT1xtzbqY5ZbaLjyQlbykjRcUB2J/ypSTrmG/Wpej+zllLpHjTLUyP/VUvX5JrtxPZmkK/7bkbSQe4jxir+qiKFMPOqKineo2scwmyZSyh6QkQNzt4Cq88LrkmI9aro6rSU3Iyln0Hjb3+QqzXH+43VN54eNWd64JaeuC3nXIRcAUgBBAUUdCCCeh71s4n7MeJY1b48SRLuVzDI1+ucS0FdSeyB8/WpjgxGbbDjw4qC3GjoS22jmJ5UgaA2epp1aqLFwt0iQSY+dedY7eMYha27TRIWhICjGnB016zXzKuc6TcLhJlXJ51ya+4XHlyVEuFR7lXN139avP7Olnk2fhPZhKS4lyYp2WlDm9pQtW0a2ToFIB6a79qkS4Y/aLsrnuFqgTFfvSIyHD+aga6CUpQlKUpCUpGgANAD0pre4mLloNhMVytph5YcLhVNf/Z" alt="Bruno">
+    <h2 class="reveal" data-i18n="final.h2">Люди не пам'ятають ідеальних слів. Вони пам'ятають, що відчули поруч із кимось.</h2>
+    <p class="reveal" data-i18n="final.p">Дай людям те, чого в них ніколи не було.</p>
+    <a href="#" id="tg-cta" class="btn reveal" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 3L2 11l6 2 2 6 3-4 5 4 4-16zM10 13l8-6-6 7-2-1z"/></svg>
+      <span data-i18n="cta.primary">Стати оператором Bruno</span>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-brand"><img class="brand-logo" src="data:image/jpeg;base64,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" alt="Bruno">BRUNO<b style="color:var(--amber);font-weight:600">.TEAM</b></div>
+  <div class="foot-tag" data-i18n="footer.tag">Give people what they never had.</div>
+  <div class="foot-links">
+    <a href="#idea" data-i18n="footer.l1">Про Bruno</a>
+    <a href="#join" data-i18n="footer.l2">Стати оператором</a>
+    <a href="#" id="tg-foot" target="_blank" rel="noopener">Telegram</a>
+  </div>
+  <div class="foot-copy">© 2026 BRUNO · bruno.team</div>
+</footer>
+
+<script>
+var TELEGRAM_URL = "https://t.me/your_channel"; // ← ВКАЖИ СВІЙ TELEGRAM
+document.getElementById('tg-cta').href = TELEGRAM_URL;
+document.getElementById('tg-foot').href = TELEGRAM_URL;
+
+
+/* ===== i18n ===== */
+var I18N={
+ uk:{
+  "hero.badge":"<b>Bruno</b> — увага, яку вони заслуговують",
+  "hero.h1":"Іноді людям не потрібне ідеальне життя.<br>Іноді їм просто треба відчути, що вони <span class='warm-word'>комусь потрібні</span>.",
+  "hero.lede":"Bruno — це не агентство і не «робота в чаті». Це місце, де розуміють самотність і вміють перетворювати увагу на цінність.",
+  "cta.primary":"Стати оператором Bruno","cta.learn":"Що таке Bruno","scroll":"гортай","sound.on":"Увімкнути звук","sound.watch":"Дивитись зі звуком","intro.skip":"Пропустити інтро",
+  "problem.eyebrow":"Холодний світ",
+  "problem.h2":"Кожен день мільйони людей проживають ще один день, не відчувши себе важливими ні для кого.",
+  "problem.p":"Не тому, що навколо нікого немає. А тому, що ніхто не написав. Не спитав, як справи. Не дочекався вдома. Самотність буває різною — але відчуття одне.",
+  "problem.s1":"повідомлення може змінити цілий день людини","problem.s2":"людей засинають, так і не почувши тепла","problem.s3":"маніпуляцій, скаму чи продажів. Тільки увага",
+  "idea.eyebrow":"Тепло приходить тихо","idea.h2":"Bruno — це не компанія. Це ідея.",
+  "idea.big":"«Іноді одне повідомлення може нагадати людині, що вона ще жива.»",
+  "idea.p":"Bruno працює не з «чатами», а з людським відчуттям потрібності. Ми не рятуємо світ. Але іноді ми робимо чиєсь життя трохи менш самотнім.",
+  "mission.eyebrow":"Місія оператора","mission.h2":"Ти можеш бути тим повідомленням, на яке людина чекає весь день.",
+  "mission.quote":"Я не просто пишу за гроші. Я створюю стан.",
+  "mission.p1":"Робота оператора Bruno — це не «вибивати донати». Це бути присутнім. Уважним. Людяним. Гроші — наслідок правильно створеного відчуття, а не мета.",
+  "mission.no.t":"Bruno — це не","mission.no.1":"не маніпуляція й не «розвод»","mission.no.2":"не продажі та не скам","mission.no.3":"не «брудний» чатинг",
+  "mission.yes.t":"Bruno — це","mission.yes.1":"справжній людський зв'язок","mission.yes.2":"емоційна безпека й присутність","mission.yes.3":"увага, яку людина заслуговує",
+  "how.eyebrow":"Як це працює","how.h2":"Простий шлях від заявки до перших теплих слів.",
+  "how.1.t":"Залиш заявку","how.1.p":"Напиши нам у Telegram. Без резюме й формальностей — просто розкажи трохи про себе.",
+  "how.2.t":"Пройди онбординг","how.2.p":"Ми покажемо, як спілкуватись тепло, уважно й щиро. Навчання з нуля.",
+  "how.3.t":"Стань присутністю","how.3.p":"Ти починаєш писати людям, які чекають уваги. І бачиш, як змінюється їхній день.",
+  "stories.eyebrow":"Реальні історії","stories.h2":"П'ятеро людей. Одна тиха зміна.",
+  "stories.sub":"Кожен з них був сам у своєму вечорі. Кожному вистачило, щоб хтось був поруч.",
+  "stories.c1.art":"Сам перед телевізором","stories.c1.t":"Чоловік","stories.c1.p":"Вечеря наодинці. Телефон, на якому ніхто не пише. Одне повідомлення — і вечір став іншим.",
+  "stories.c2.art":"Нічний скролінг","stories.c2.t":"Молода жінка","stories.c2.p":"Гортала стрічку, щоб не думати. А потім хтось написав щось тепле — саме їй.",
+  "stories.c3.art":"Хотів написати, але стер","stories.c3.t":"Старший чоловік","stories.c3.p":"Боявся бути зайвим. Аж поки не отримав відповідь, якої давно не чекав.",
+  "stories.c4.art":"Left on seen","stories.c4.t":"Молодий хлопець","stories.c4.p":"Чекав відповідь, що не приходила. Поки хтось нарешті не озвався по-справжньому.",
+  "stories.c5.art":"Порожня квартира","stories.c5.t":"Офісний працівник","stories.c5.p":"Повертався туди, де ніхто не чекав. Тепер вдома його зустрічало тепло.",
+  "final.h2":"Люди не пам'ятають ідеальних слів. Вони пам'ятають, що відчули поруч із кимось.",
+  "final.p":"Дай людям те, чого в них ніколи не було.",
+  "footer.tag":"Give people what they never had.","footer.l1":"Про Bruno","footer.l2":"Стати оператором"
+ },
+ ru:{
+  "hero.badge":"<b>Bruno</b> — внимание, которое они заслуживают",
+  "hero.h1":"Иногда людям не нужна идеальная жизнь.<br>Иногда им просто нужно почувствовать, что они <span class='warm-word'>кому-то нужны</span>.",
+  "hero.lede":"Bruno — это не агентство и не «работа в чате». Это место, где понимают одиночество и умеют превращать внимание в ценность.",
+  "cta.primary":"Стать оператором Bruno","cta.learn":"Что такое Bruno","scroll":"листай","sound.on":"Включить звук","sound.watch":"Смотреть со звуком","intro.skip":"Пропустить интро",
+  "problem.eyebrow":"Холодный мир",
+  "problem.h2":"Каждый день миллионы людей проживают ещё один день, не почувствовав себя важными ни для кого.",
+  "problem.p":"Не потому, что вокруг никого нет. А потому, что никто не написал. Не спросил, как дела. Не дождался дома. Одиночество бывает разным — но чувство одно.",
+  "problem.s1":"сообщение может изменить целый день человека","problem.s2":"людей засыпают, так и не почувствовав тепла","problem.s3":"манипуляций, скама или продаж. Только внимание",
+  "idea.eyebrow":"Тепло приходит тихо","idea.h2":"Bruno — это не компания. Это идея.",
+  "idea.big":"«Иногда одно сообщение может напомнить человеку, что он всё ещё жив.»",
+  "idea.p":"Bruno работает не с «чатами», а с человеческим ощущением нужности. Мы не спасаем мир. Но иногда мы делаем чью-то жизнь чуть менее одинокой.",
+  "mission.eyebrow":"Миссия оператора","mission.h2":"Ты можешь быть тем сообщением, которого человек ждёт весь день.",
+  "mission.quote":"Я не просто пишу за деньги. Я создаю состояние.",
+  "mission.p1":"Работа оператора Bruno — это не «выбивать донаты». Это быть рядом. Внимательным. Человечным. Деньги — следствие правильно созданного ощущения, а не цель.",
+  "mission.no.t":"Bruno — это не","mission.no.1":"не манипуляция и не «развод»","mission.no.2":"не продажи и не скам","mission.no.3":"не «грязный» чатинг",
+  "mission.yes.t":"Bruno — это","mission.yes.1":"настоящая человеческая связь","mission.yes.2":"эмоциональная безопасность и присутствие","mission.yes.3":"внимание, которое человек заслуживает",
+  "how.eyebrow":"Как это работает","how.h2":"Простой путь от заявки до первых тёплых слов.",
+  "how.1.t":"Оставь заявку","how.1.p":"Напиши нам в Telegram. Без резюме и формальностей — просто расскажи немного о себе.",
+  "how.2.t":"Пройди онбординг","how.2.p":"Мы покажем, как общаться тепло, внимательно и искренне. Обучение с нуля.",
+  "how.3.t":"Стань присутствием","how.3.p":"Ты начинаешь писать людям, которые ждут внимания. И видишь, как меняется их день.",
+  "stories.eyebrow":"Реальные истории","stories.h2":"Пятеро людей. Одна тихая перемена.",
+  "stories.sub":"Каждый из них был один в своём вечере. Каждому хватило, чтобы кто-то был рядом.",
+  "stories.c1.art":"Один перед телевизором","stories.c1.t":"Мужчина","stories.c1.p":"Ужин в одиночестве. Телефон, на котором никто не пишет. Одно сообщение — и вечер стал другим.",
+  "stories.c2.art":"Ночной скроллинг","stories.c2.t":"Молодая женщина","stories.c2.p":"Листала ленту, чтобы не думать. А потом кто-то написал что-то тёплое — именно ей.",
+  "stories.c3.art":"Хотел написать, но стёр","stories.c3.t":"Пожилой мужчина","stories.c3.p":"Боялся быть лишним. Пока не получил ответ, которого давно не ждал.",
+  "stories.c4.art":"Left on seen","stories.c4.t":"Молодой парень","stories.c4.p":"Ждал ответ, который не приходил. Пока кто-то наконец не отозвался по-настоящему.",
+  "stories.c5.art":"Пустая квартира","stories.c5.t":"Офисный работник","stories.c5.p":"Возвращался туда, где никто не ждал. Теперь дома его встречало тепло.",
+  "final.h2":"Люди не помнят идеальных слов. Они помнят, что почувствовали рядом с кем-то.",
+  "final.p":"Дай людям то, чего у них никогда не было.",
+  "footer.tag":"Give people what they never had.","footer.l1":"О Bruno","footer.l2":"Стать оператором"
+ },
+ en:{
+  "hero.badge":"<b>Bruno</b> — the attention they deserve",
+  "hero.h1":"Sometimes people don't need a perfect life.<br>Sometimes they just need to feel they are <span class='warm-word'>needed by someone</span>.",
+  "hero.lede":"Bruno isn't an agency or a «chat job». It's a place that understands loneliness and turns attention into something that matters.",
+  "cta.primary":"Become a Bruno operator","cta.learn":"What is Bruno","scroll":"scroll","sound.on":"Unmute","sound.watch":"Watch with sound","intro.skip":"Skip intro",
+  "problem.eyebrow":"A cold world",
+  "problem.h2":"Every day millions of people live through another day without feeling important to anyone.",
+  "problem.p":"Not because no one is around. But because no one wrote. No one asked how they were. No one waited at home. Loneliness comes in many forms — but the feeling is the same.",
+  "problem.s1":"message can change a person's entire day","problem.s2":"people fall asleep never having felt warmth","problem.s3":"manipulation, scam or sales. Only attention",
+  "idea.eyebrow":"Warmth arrives quietly","idea.h2":"Bruno isn't a company. It's an idea.",
+  "idea.big":"«Sometimes one message can remind a person they're still alive.»",
+  "idea.p":"Bruno works not with «chats», but with the human feeling of being needed. We don't save the world. But sometimes we make someone's life a little less lonely.",
+  "mission.eyebrow":"The operator's mission","mission.h2":"You can be the message someone waits for all day long.",
+  "mission.quote":"I don't just write for money. I create a feeling.",
+  "mission.p1":"Being a Bruno operator isn't about «pushing for donations». It's about being present. Attentive. Human. Money is a result of a feeling done right — not the goal.",
+  "mission.no.t":"Bruno is not","mission.no.1":"not manipulation or a «con»","mission.no.2":"not sales or a scam","mission.no.3":"not «dirty» chatting",
+  "mission.yes.t":"Bruno is","mission.yes.1":"a real human connection","mission.yes.2":"emotional safety and presence","mission.yes.3":"the attention a person deserves",
+  "how.eyebrow":"How it works","how.h2":"A simple path from application to the first warm words.",
+  "how.1.t":"Apply","how.1.p":"Message us on Telegram. No CV, no formalities — just tell us a little about yourself.",
+  "how.2.t":"Get onboarded","how.2.p":"We'll show you how to talk warmly, attentively and sincerely. Training from scratch.",
+  "how.3.t":"Become a presence","how.3.p":"You start writing to people who are waiting for attention. And you see their day change.",
+  "stories.eyebrow":"Real stories","stories.h2":"Five people. One quiet change.",
+  "stories.sub":"Each of them was alone in their evening. For each, it was enough that someone was there.",
+  "stories.c1.art":"Alone in front of the TV","stories.c1.t":"The man","stories.c1.p":"Dinner alone. A phone no one texts. One message — and the evening became different.",
+  "stories.c2.art":"Late-night scrolling","stories.c2.t":"The young woman","stories.c2.p":"Scrolling to stop thinking. Then someone wrote something warm — just for her.",
+  "stories.c3.art":"Wanted to write, but deleted it","stories.c3.t":"The older man","stories.c3.p":"Afraid to be a burden. Until he got an answer he'd long stopped expecting.",
+  "stories.c4.art":"Left on seen","stories.c4.t":"The young man","stories.c4.p":"Waiting for a reply that never came. Until someone finally reached out for real.",
+  "stories.c5.art":"An empty apartment","stories.c5.t":"The office worker","stories.c5.p":"Coming home to no one. Now warmth met him at the door.",
+  "final.h2":"People don't remember perfect words. They remember how someone made them feel.",
+  "final.p":"Give people what they never had.",
+  "footer.tag":"Give people what they never had.","footer.l1":"About Bruno","footer.l2":"Become an operator"
+ }
+};
+function setLang(l){
+  document.documentElement.lang=l;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var k=el.getAttribute('data-i18n'); if(I18N[l][k]!=null) el.textContent=I18N[l][k];
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(function(el){
+    var k=el.getAttribute('data-i18n-html'); if(I18N[l][k]!=null) el.innerHTML=I18N[l][k];
+  });
+  // hero badge + h1 carry html
+  var badge=document.querySelector('[data-i18n="hero.badge"]'); if(badge&&I18N[l]["hero.badge"]) badge.innerHTML=I18N[l]["hero.badge"];
+  var h1=document.querySelector('[data-i18n-html="hero.h1"]')||document.querySelector('.hero h1'); if(h1&&I18N[l]["hero.h1"]) h1.innerHTML=I18N[l]["hero.h1"];
+  document.querySelectorAll('.lang button').forEach(function(b){b.classList.toggle('active',b.dataset.lang===l)});
+  try{localStorage.setItem('bruno_lang',l)}catch(e){}
+}
+document.getElementById('lang').addEventListener('click',function(e){
+  if(e.target.dataset.lang) setLang(e.target.dataset.lang);
+});
+// hero h1 needs html marker
+document.querySelector('.hero h1').setAttribute('data-i18n-html','hero.h1');
+(function(){var saved;try{saved=localStorage.getItem('bruno_lang')}catch(e){} setLang(saved||'uk');})();
+
+/* ===== scroll reveal ===== */
+var io=new IntersectionObserver(function(es){
+  es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target)}})
+},{threshold:.14,rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+
+/* ===== bar turns warm over cream sections ===== */
+var bar=document.getElementById('bar');
+var warmZones=document.querySelectorAll('.hero,.cream-sec,.how,.stories,.final,footer');
+var barIO=new IntersectionObserver(function(es){
+  var anyWarm=false;
+  es.forEach(function(en){if(en.isIntersecting&&en.intersectionRatio>0)anyWarm=true});
+  // recompute against all zones each time
+  var hit=false;
+  warmZones.forEach(function(z){
+    var r=z.getBoundingClientRect();
+    if(r.top<70&&r.bottom>70)hit=true;
+  });
+  bar.classList.toggle('warm',hit);
+},{threshold:[0,.01,1],rootMargin:'-60px 0px 0px 0px'});
+warmZones.forEach(function(z){barIO.observe(z)});
+window.addEventListener('scroll',function(){
+  var hit=false;
+  warmZones.forEach(function(z){var r=z.getBoundingClientRect();if(r.top<70&&r.bottom>70)hit=true});
+  bar.classList.toggle('warm',hit);
+},{passive:true});
+
+/* ===== BRUNO PAW TRAIL ===== */
+(function(){
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if(reduce)return;
+  var cv=document.getElementById('pawTrail');
+  if(!cv)return;
+  var ctx=cv.getContext('2d');
+  var DPR=Math.min(window.devicePixelRatio||1,2);
+  var W,H;
+  function resize(){
+    W=cv.clientWidth;H=cv.clientHeight;
+    cv.width=W*DPR;cv.height=H*DPR;
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+  }
+  resize();
+  window.addEventListener('resize',resize,{passive:true});
+
+  // ---- draw one stylised Bruno paw (pads + toes) ----
+  // colors: warm Bruno red / amber, soft
+  function drawPaw(x,y,angle,scale,alpha){
+    ctx.save();
+    ctx.translate(x,y);
+    ctx.rotate(angle);
+    ctx.scale(scale,scale);
+    ctx.globalAlpha=alpha;
+    // soft warm fill with subtle gradient
+    var g=ctx.createRadialGradient(0,4,1,0,4,26);
+    g.addColorStop(0,'rgba(216,110,90,0.95)');
+    g.addColorStop(1,'rgba(192,57,43,0.78)');
+    ctx.fillStyle=g;
+    ctx.shadowColor='rgba(192,57,43,0.35)';
+    ctx.shadowBlur=10;
+    // main pad (rounded triangle-ish)
+    ctx.beginPath();
+    ctx.moveTo(0,18);
+    ctx.bezierCurveTo(-14,18,-15,4,-9,-2);
+    ctx.bezierCurveTo(-4,-7,4,-7,9,-2);
+    ctx.bezierCurveTo(15,4,14,18,0,18);
+    ctx.closePath();
+    ctx.fill();
+    ctx.shadowBlur=6;
+    // 4 toes
+    var toes=[[-11,-10,3.6,5.2],[-4,-16,3.8,5.6],[4,-16,3.8,5.6],[11,-10,3.6,5.2]];
+    for(var i=0;i<toes.length;i++){
+      var t=toes[i];
+      ctx.beginPath();
+      ctx.ellipse(t[0],t[1],t[2],t[3],0,0,Math.PI*2);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  // ---- trail state: paws walk diagonally across screen ----
+  var paws=[];        // active paws {x,y,angle,scale,born,life,fadeIn}
+  var stepCount=0;    // global paw counter (every 20th fades specially)
+  var walker=null;    // current walking path
+
+  function newWalk(){
+    // random start edge, random direction across screen
+    var edge=Math.floor(Math.random()*4);
+    var sx,sy,dirX,dirY;
+    if(edge===0){sx=-40;sy=Math.random()*H;dirX=1;dirY=(Math.random()-0.5)*0.7;}
+    else if(edge===1){sx=W+40;sy=Math.random()*H;dirX=-1;dirY=(Math.random()-0.5)*0.7;}
+    else if(edge===2){sx=Math.random()*W;sy=-40;dirX=(Math.random()-0.5)*0.7;dirY=1;}
+    else {sx=Math.random()*W;sy=H+40;dirX=(Math.random()-0.5)*0.7;dirY=-1;}
+    var len=Math.hypot(dirX,dirY);dirX/=len;dirY/=len;
+    var ang=Math.atan2(dirY,dirX)+Math.PI/2; // paw points along walk dir
+    walker={x:sx,y:sy,dx:dirX,dy:dirY,angle:ang,
+            stride:46+Math.random()*16, side:1,
+            steps:0, maxSteps:10+Math.floor(Math.random()*10),
+            scale:0.8+Math.random()*0.5,
+            nextIn:0};
+  }
+  newWalk();
+
+  function placePaw(){
+    if(!walker){newWalk();return;}
+    // perpendicular offset for left/right paw
+    var px=-walker.dy, py=walker.dx;
+    var off=walker.side*9;
+    var x=walker.x+px*off;
+    var y=walker.y+py*off;
+    stepCount++;
+    var special=(stepCount%20===0); // every 20th paw: special gentle vanish
+    paws.push({
+      x:x,y:y,angle:walker.angle+(Math.random()-0.5)*0.12,
+      scale:walker.scale*(0.95+Math.random()*0.1),
+      born:performance.now(),
+      fadeIn:260,
+      hold: special?2600:1800,
+      fadeOut: special?2200:1400,
+      peak: special?0.62:0.5
+    });
+    // advance walker
+    walker.x+=walker.dx*walker.stride;
+    walker.y+=walker.dy*walker.stride;
+    walker.side*=-1;
+    walker.steps++;
+    // off screen or done -> new walk after pause
+    if(walker.steps>=walker.maxSteps || walker.x<-80||walker.x>W+80||walker.y<-80||walker.y>H+80){
+      walker=null;
+    }
+  }
+
+  var lastPlace=0;
+  var placeEvery=380; // ms between paw prints
+  function loop(now){
+    ctx.clearRect(0,0,W,H);
+    if(now-lastPlace>placeEvery){
+      lastPlace=now;
+      if(!walker){ if(Math.random()<0.6) newWalk(); }
+      if(walker) placePaw();
+    }
+    for(var i=paws.length-1;i>=0;i--){
+      var p=paws[i];
+      var age=now-p.born;
+      var a;
+      if(age<p.fadeIn){a=(age/p.fadeIn)*p.peak;}
+      else if(age<p.fadeIn+p.hold){a=p.peak;}
+      else{
+        var fo=(age-p.fadeIn-p.hold)/p.fadeOut;
+        a=p.peak*(1-fo);
+      }
+      if(age>p.fadeIn+p.hold+p.fadeOut){paws.splice(i,1);continue;}
+      drawPaw(p.x,p.y,p.angle,p.scale,Math.max(0,a));
+    }
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
+
+</script>
+</body>
+</html>
